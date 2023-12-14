@@ -1,0 +1,71 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="350" d:DesignHeight="425"
+        x:Class="AvaloniaApplication2.Views.MainWindow"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="Sword"
+		Width="350"
+		Height="425"
+        CanResize="False"
+        WindowStartupLocation="CenterScreen">
+
+	<ScrollViewer x:Name="view">
+	<StackPanel Margin="20,15,20,0" >
+	
+			<StackPanel  >
+		<!--1-->
+		<Grid Background="White" Height="40" ColumnDefinitions="auto,*,auto" >
+			
+			<TextBox Text="1" TextChanged="SclX_OnTextChanged" x:Name="SclX" Grid.Column="0" Width="110" Height="30"/>
+			<TextBox Text="1" TextChanged="SclY_OnTextChanged" x:Name="SclY" Grid.Column="1" Width="110" Height="30"/>
+			<Button x:Name="ScaleBtn" Click="ScaleBtn_OnClick" HorizontalContentAlignment="Center" Content="Scale" Grid.Column="2"  Width="80" Height="30"/>
+
+		</Grid>
+		<!--2-->
+		<Grid Background="White" Height="40" ColumnDefinitions="auto,*,auto">
+
+			<TextBox Text="0" Grid.Column="0" Width="110" Height="30"/>
+			<TextBox Text="0" Grid.Column="1"  Width="110" Height="30"/>
+			<Button Click="Translate_OnClick" x:Name ="Translate" HorizontalContentAlignment="Center" Content="Translate" Grid.Column="2"  Width="80" Height="30"/>
+
+		</Grid>
+		<!--3-->
+		<Grid Background="White" Height="40" ColumnDefinitions="auto,*,auto,*">
+			<TextBox Text="0" Grid.Column="0"  Width="70" Height="30"/>
+			<TextBox Text="0" Grid.Column="1"  Width="70" Height="30"/>
+			<TextBox Text="0°" Grid.Column="2"  Width="70" Height="30"/>
+			<Button  x:Name="Rotate" Click="Rotate_OnClick" HorizontalContentAlignment="Center" Content="Rotate" Grid.Column="3" Width="80" Height="30" Margin="5,0,0,0"/>
+		</Grid>
+		<!--4-->
+		<Grid Background="White" Height="40" ColumnDefinitions="auto,*,auto">
+
+			<TextBox x:Name="txtround" Text="1" Grid.Column="0" Width="225" Height="30"/>
+			<Button  x:Name="Round" Click="Round_OnClick" HorizontalContentAlignment="Center" Content="Round" Grid.Column="2" Width="80" Height="30"/>
+		</Grid>
+		<!--5-->
+		<Grid Background="White" Height="40" ColumnDefinitions="auto,*,auto">
+            <Button Click="RelativeBtn_OnClick"  x:Name="RelativeBtn" Content="Convert to relative" Grid.Column="1"/>
+            <Button Click="AbsoluteBtn_OnClick" x:Name="AbsoluteBtn" Content="Convert to absolute" Grid.Column="2"/>
+		</Grid>
+		<Grid Background="white" Height="160"  ColumnDefinitions="*">
+
+					<TextBox x:Name="message" TextWrapping="Wrap" Grid.Column="0"  Width="310" Height="150"/>
+        </Grid>
+        <Grid Background="white" Height="40" ColumnDefinitions="Auto,*,Auto">
+			<Button Grid.Column="0" HorizontalContentAlignment="Center" HorizontalAlignment="Center" Content="Clear" x:Name ="ClearButton" Click="ClearButton_OnClick"  Width="60" Height="30"/>
+			<Button Grid.Column="1" HorizontalContentAlignment="Center" HorizontalAlignment="Center" Content="Commands" x:Name ="Spis" Click="SpisButton_OnClick" Height="30"/>
+            <Button  Grid.Column="2" HorizontalContentAlignment="Center" HorizontalAlignment="Center" Content="Save" x:Name ="SaveButton" Click="SaveButton_OnClick"  Width="60" Height="30"/>
+        </Grid>
+				
+				
+        <Grid x:Name="outputGrid" Background="White"   RowDefinitions="auto">
+         <Path x:Name="path1"  Fill="black" Data="{Binding ElementName=message,Path=Text}" VerticalAlignment="Bottom" HorizontalAlignment="Center"  Margin="0,15,0,0"/>
+		</Grid>
+            </StackPanel>
+		<StackPanel x:Name="outputStackPanel">
+			</StackPanel>
+    </StackPanel>
+		</ScrollViewer>
+</Window>

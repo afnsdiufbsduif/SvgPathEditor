@@ -8,6 +8,8 @@ using Avalonia.Media;
 using System.IO;
 using System.Linq;
 using Avalonia.Controls.Primitives;
+using System.Threading.Tasks;
+using System.Globalization;
 
 namespace AvaloniaApplication2.Views;
 
@@ -110,7 +112,7 @@ public partial class MainWindow : Window
 
                     currentLine += $"{c} ";
                 }
-                else if (Char.IsDigit(c) || c == '-' || c == '.')
+                else if (Char.IsDigit(c) || c == '-' || c == '.' || c == ',')
                 {
                     currentLine += c;
                 }
@@ -133,9 +135,11 @@ public partial class MainWindow : Window
 
             for (int i = 0; i < outputLines.Count; i++)
             {
-                if (double.TryParse(outputLines[i], out _))
+                if (double.TryParse(outputLines[i], NumberStyles.Any, CultureInfo.InvariantCulture, out double value))
                 {
+                  
                     TextBox outputTextBox = new TextBox();
+                    outputTextBox.Text = value.ToString(CultureInfo.InvariantCulture);
                     outputTextBox.Name = "outputTextBox" + (i + 1);
                     outputTextBox.Text = outputLines[i];
                     outputTextBox.Margin = new Thickness(0, 0, 0, 5); 
@@ -158,7 +162,10 @@ public partial class MainWindow : Window
         }
             else
             {
+            message.HorizontalContentAlignment = HorizontalAlignment.Center;
+
             message.Text = "Некорректные значения!";
+           
             }    
     }
 

@@ -10,6 +10,7 @@ using System.Linq;
 using Avalonia.Controls.Primitives;
 using System.Threading.Tasks;
 using System.Globalization;
+using Avalonia.Input;
 
 namespace AvaloniaApplication2.Views;
 
@@ -27,6 +28,7 @@ public partial class MainWindow : Window
        message.Clear();
        outputStackPanel.Children.Clear();
        Height = 425;
+       message.HorizontalContentAlignment = HorizontalAlignment.Left;
 
     }
 
@@ -42,6 +44,8 @@ public partial class MainWindow : Window
 
             message.Text = "Некорректные значения скалирования!";
         }
+        SclX.Text = "1";
+        SclY.Text = "1";
     }
     private void ApplyScale(float scaleX, float scaleY)
     {
@@ -92,8 +96,10 @@ public partial class MainWindow : Window
   
     void Command()
     {
+       
         if (message.Text != null)
         {
+
             Height = 800;
             outputStackPanel.Children.Clear();
             string inputText = message.Text;
@@ -135,27 +141,27 @@ public partial class MainWindow : Window
 
             for (int i = 0; i < outputLines.Count; i++)
             {
+
                 if (double.TryParse(outputLines[i], NumberStyles.Any, CultureInfo.InvariantCulture, out double value))
                 {
+
                   
                     TextBox outputTextBox = new TextBox();
                     outputTextBox.Text = value.ToString(CultureInfo.InvariantCulture);
                     outputTextBox.Name = "outputTextBox" + (i + 1);
                     outputTextBox.Text = outputLines[i];
-                    outputTextBox.Margin = new Thickness(0, 0, 0, 5); 
+                    outputTextBox.Margin = new Thickness(0, 0, 5, 5); 
                     outputTextBox.Width = 60; 
                     outputTextBox.HorizontalContentAlignment = HorizontalAlignment.Center;
-
-                    Grid.SetColumn(outputTextBox, i % 7); 
+                    Grid.SetColumn(outputTextBox,2);
                     outputStackPanel.Children.Add(outputTextBox);
                 }
                 else
                 {
-                    Label label = new Label();
+                    Button label = new Button();
                     label.Content = outputLines[i] + ":";
                     label.Margin = new Thickness(0, 0, 5, 0);
-
-                    Grid.SetColumn(label, i % 7); 
+                    label.Width = 35;
                     outputStackPanel.Children.Add(label);
                 }
             }
@@ -169,11 +175,49 @@ public partial class MainWindow : Window
             }    
     }
 
+    private void ApplyTranslation(float translateX, float translateY)
+    {
+        if (path1.RenderTransform is TransformGroup transformGroup)
+        {
+            var translateTransform = transformGroup.Children.OfType<TranslateTransform>().FirstOrDefault();
+
+            if (translateTransform != null)
+            {
+                translateTransform.X += translateX;
+                translateTransform.Y += translateY;
+            }
+            else
+            {
+                translateTransform = new TranslateTransform(translateX, translateY);
+                transformGroup.Children.Add(translateTransform);
+            }
+        }
+        else
+        {
+            var transform = new TransformGroup();
+            transform.Children.Add(new ScaleTransform(scaleX, scaleY));
+            transform.Children.Add(new TranslateTransform(translateX, translateY));
+            path1.RenderTransform = transform;
+        }
+    }
 
     private void Translate_OnClick(object? sender, RoutedEventArgs e)
     {
-
+        if (float.TryParse(moveX.Text, out float translateX) && float.TryParse(moveY.Text, out float translateY))
+        {
+            ApplyTranslation(translateX, translateY);
+        }
+        else
+        {
+            message.HorizontalContentAlignment = HorizontalAlignment.Center;
+            message.Text = "Некорректные значения перемещения!";
+        }
+        moveX.Text = "0";
+        moveY.Text = "0";
     }
+
+
+   
 
     private void Rotate_OnClick(object? sender, RoutedEventArgs e)
     {

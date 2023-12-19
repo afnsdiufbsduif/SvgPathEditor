@@ -11,6 +11,7 @@ using Avalonia.Controls.Primitives;
 using System.Threading.Tasks;
 using System.Globalization;
 using Avalonia.Input;
+using Avalonia.Threading;
 
 namespace AvaloniaApplication2.Views;
 
@@ -18,17 +19,53 @@ public partial class MainWindow : Window
 {
     private float scaleX = 1.0f;
     private float scaleY = 1.0f;
+    private Point previousMousePosition;
+
     public MainWindow()
     {
         InitializeComponent();
+        message.TextChanged += Message_TextChanged;
+
+    }
+
+
+    private void Message_TextChanged(object sender, EventArgs e)
+    {
+        if (sender is TextBox textBox)
+        {
+            UpdatePath(textBox.Text);
+        }
+
+        if (message != null && message.Text != null)
+        {
+            Kol.Text = message.Text.Length.ToString();
+        }
+        else
+        {
+            Kol.Text = "0";
+        }
+    }
+    private void UpdatePath(string pathDataString)
+    {
+        try
+        {
+            // Преобразование строки пути в объект Geometry
+            var geometry = Geometry.Parse(pathDataString);
+
+            // Установка Geometry в свойство Data элемента Path
+            path1.Data = geometry;
+        }
+        catch (Exception ex)
+        {
+        }
     }
 
     private void ClearButton_OnClick(object? sender, RoutedEventArgs e)
     {
-       message.Clear();
-       outputStackPanel.Children.Clear();
-       Height = 425;
-       message.HorizontalContentAlignment = HorizontalAlignment.Left;
+        message.Clear();
+        outputStackPanel.Children.Clear();
+        Height = 425;
+        message.HorizontalContentAlignment = HorizontalAlignment.Left;
 
     }
 
@@ -71,20 +108,20 @@ public partial class MainWindow : Window
     }
     private void SpisButton_OnClick(object? sender, RoutedEventArgs e)
     {
-       
-     
+
+
         Command();
     }
 
     private void Round_OnClick(object? sender, RoutedEventArgs e)
     {
-        if(txtround.Text != "")
-        { 
-        scaleX = (float)Math.Round(scaleX, int.Parse(txtround.Text));
-        SclX.Text = scaleX.ToString();
-        scaleY = (float)Math.Round(scaleY, int.Parse(txtround.Text));
-        SclY.Text = scaleY.ToString();
-        ApplyScale(scaleX, scaleY);
+        if (txtround.Text != "")
+        {
+            scaleX = (float)Math.Round(scaleX, int.Parse(txtround.Text));
+            SclX.Text = scaleX.ToString();
+            scaleY = (float)Math.Round(scaleY, int.Parse(txtround.Text));
+            SclY.Text = scaleY.ToString();
+            ApplyScale(scaleX, scaleY);
         }
         else
         {
@@ -93,14 +130,12 @@ public partial class MainWindow : Window
         }
 
     }
-  
+
     void Command()
     {
-       
+
         if (message.Text != null)
         {
-
-            Height = 800;
             outputStackPanel.Children.Clear();
             string inputText = message.Text;
             List<string> outputLines = new List<string>();
@@ -145,34 +180,38 @@ public partial class MainWindow : Window
                 if (double.TryParse(outputLines[i], NumberStyles.Any, CultureInfo.InvariantCulture, out double value))
                 {
 
-                  
+
                     TextBox outputTextBox = new TextBox();
                     outputTextBox.Text = value.ToString(CultureInfo.InvariantCulture);
                     outputTextBox.Name = "outputTextBox" + (i + 1);
                     outputTextBox.Text = outputLines[i];
-                    outputTextBox.Margin = new Thickness(0, 0, 5, 5); 
-                    outputTextBox.Width = 60; 
+                    outputTextBox.Margin = new Thickness(0, 0, 15, 15);
+                    outputTextBox.Width = 60;
                     outputTextBox.HorizontalContentAlignment = HorizontalAlignment.Center;
-                    Grid.SetColumn(outputTextBox,2);
+                    Grid.SetColumn(outputTextBox, 2);
                     outputStackPanel.Children.Add(outputTextBox);
                 }
                 else
                 {
-                    Button label = new Button();
-                    label.Content = outputLines[i] + ":";
-                    label.Margin = new Thickness(0, 0, 5, 0);
-                    label.Width = 35;
-                    outputStackPanel.Children.Add(label);
-                }
-            }
-        }
-            else
-            {
-            message.HorizontalContentAlignment = HorizontalAlignment.Center;
+                    Button button = new Button();
 
+                    button.Background = new SolidColorBrush(Color.Parse("#4DB6AC"));
+
+                    button.Content = outputLines[i] + ":";
+                    button.Margin = new Thickness(0, 0, 5, 15);
+                    button.Width = 310;
+                    outputStackPanel.Children.Add(button);
+                }
+
+            }
+
+        }
+        else
+        {
+            message.HorizontalContentAlignment = HorizontalAlignment.Center;
             message.Text = "Некорректные значения!";
-           
-            }    
+
+        }
     }
 
     private void ApplyTranslation(float translateX, float translateY)
@@ -217,11 +256,11 @@ public partial class MainWindow : Window
     }
 
 
-   
+
 
     private void Rotate_OnClick(object? sender, RoutedEventArgs e)
     {
-       
+
     }
 
 
@@ -232,11 +271,11 @@ public partial class MainWindow : Window
 
     private void AbsoluteBtn_OnClick(object? sender, RoutedEventArgs e)
     {
-        
+
     }
 
     private void SaveButton_OnClick(object? sender, RoutedEventArgs e)
     {
-        
+
     }
 }

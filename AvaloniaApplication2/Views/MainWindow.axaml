@@ -50,7 +50,7 @@
                         <TextBlock Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Black" x:Name="Kol"/>
                     </Grid>
                     <Grid Height="160" ColumnDefinitions="*">
-                        <TextBox x:Name="message" TextWrapping="Wrap" Grid.Column="0" Width="310" Height="150"/>
+                        <TextBox x:Name="message" Padding="5" TextWrapping="Wrap" Grid.Column="0" Width="310" Height="150"/>
                     </Grid>
                     <Grid Height="40" ColumnDefinitions="Auto,*,Auto" Margin="0,0,0,15">
                         <Button Grid.Column="0" HorizontalContentAlignment="Center" HorizontalAlignment="Center" Content="Clear" x:Name="ClearButton" Click="ClearButton_OnClick" Width="60" Height="30" Background="#4DB6AC" />

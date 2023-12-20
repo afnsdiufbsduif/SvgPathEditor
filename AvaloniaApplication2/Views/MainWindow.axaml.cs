@@ -19,7 +19,6 @@ public partial class MainWindow : Window
 {
     private float scaleX = 1.0f;
     private float scaleY = 1.0f;
-    private Point previousMousePosition;
 
     public MainWindow()
     {
@@ -49,10 +48,8 @@ public partial class MainWindow : Window
     {
         try
         {
-            // Преобразование строки пути в объект Geometry
             var geometry = Geometry.Parse(pathDataString);
 
-            // Установка Geometry в свойство Data элемента Path
             path1.Data = geometry;
         }
         catch (Exception ex)

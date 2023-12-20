@@ -49,6 +49,7 @@ public partial class MainWindow : Window
         }
         catch (Exception ex)
         {
+         
         }
     }
 
@@ -178,9 +179,6 @@ public partial class MainWindow : Window
                 else
                 {
                     Button button = new Button();
-
-                    button.Background = new SolidColorBrush(Color.Parse("#4DB6AC"));
-
                     button.Content = outputLines[i] + ":";
                     button.Margin = new Thickness(0, 0, 5, 15);
                     button.Width = 310;
@@ -197,6 +195,8 @@ public partial class MainWindow : Window
 
         }
     }
+
+
 
     private void ApplyTranslation(float translateX, float translateY)
     {

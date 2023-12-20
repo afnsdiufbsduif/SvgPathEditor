@@ -33,6 +33,7 @@ public partial class MainWindow : Window
         if (sender is TextBox textBox)
         {
             UpdatePath(textBox.Text);
+            Command();
         }
 
         if (message != null && message.Text != null)
@@ -106,8 +107,6 @@ public partial class MainWindow : Window
     private void SpisButton_OnClick(object? sender, RoutedEventArgs e)
     {
 
-
-        Command();
     }
 
     private void Round_OnClick(object? sender, RoutedEventArgs e)

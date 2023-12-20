@@ -7,11 +7,8 @@ using Avalonia.Layout;
 using Avalonia.Media;
 using System.IO;
 using System.Linq;
-using Avalonia.Controls.Primitives;
-using System.Threading.Tasks;
 using System.Globalization;
-using Avalonia.Input;
-using Avalonia.Threading;
+
 
 namespace AvaloniaApplication2.Views;
 
@@ -19,14 +16,11 @@ public partial class MainWindow : Window
 {
     private float scaleX = 1.0f;
     private float scaleY = 1.0f;
-
     public MainWindow()
     {
         InitializeComponent();
         message.TextChanged += Message_TextChanged;
-
     }
-
 
     private void Message_TextChanged(object sender, EventArgs e)
     {
@@ -104,11 +98,6 @@ public partial class MainWindow : Window
             scaleY = scaleYValue;
         }
     }
-    private void SpisButton_OnClick(object? sender, RoutedEventArgs e)
-    {
-
-    }
-
     private void Round_OnClick(object? sender, RoutedEventArgs e)
     {
         if (txtround.Text != "")
@@ -126,7 +115,6 @@ public partial class MainWindow : Window
         }
 
     }
-
     void Command()
     {
 
@@ -252,7 +240,10 @@ public partial class MainWindow : Window
     }
 
 
+    private void SpisButton_OnClick(object? sender, RoutedEventArgs e)
+    {
 
+    }
 
     private void Rotate_OnClick(object? sender, RoutedEventArgs e)
     {

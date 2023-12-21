@@ -118,7 +118,6 @@ public partial class MainWindow : Window
     }
     void Command()
     {
-
         if (message.Text != null)
         {
             outputStackPanel.Children.Clear();
@@ -157,44 +156,69 @@ public partial class MainWindow : Window
                 outputLines.Add(currentLine.Trim());
             }
 
-            outputStackPanel.Children.OfType<Control>().Where(c => c is TextBox || c is Label).ToList().ForEach(c => outputStackPanel.Children.Remove(c));
-
             for (int i = 0; i < outputLines.Count; i++)
             {
-
                 if (double.TryParse(outputLines[i], NumberStyles.Any, CultureInfo.InvariantCulture, out double value))
                 {
-
-
                     TextBox outputTextBox = new TextBox();
                     outputTextBox.Text = value.ToString(CultureInfo.InvariantCulture);
-                    outputTextBox.Name = "outputTextBox" + (i + 1);
-                    outputTextBox.Text = outputLines[i];
+                    outputTextBox.Name = "outputTextBox" + (i + 1); // Unique identifier
                     outputTextBox.Margin = new Thickness(0, 0, 15, 15);
                     outputTextBox.Width = 60;
                     outputTextBox.HorizontalContentAlignment = HorizontalAlignment.Center;
-                    Grid.SetColumn(outputTextBox, 2);
+
+                    // Attach TextChanged event handler
+                    outputTextBox.TextChanged += (sender, e) =>
+                    {
+                        if (sender is TextBox textBox)
+                        {
+                            // Update the corresponding value in outputLines
+                            int index = int.Parse(textBox.Name.Replace("outputTextBox", "")) - 1;
+                            outputLines[index] = textBox.Text;
+                            UpdateMessage(outputLines);
+                        }
+                    };
+
                     outputStackPanel.Children.Add(outputTextBox);
                 }
                 else
                 {
                     Button button = new Button();
                     button.Content = outputLines[i] + ":";
+                    button.Name = "button" + (i + 1); // Unique identifier
                     button.Margin = new Thickness(0, 0, 5, 15);
                     button.Width = 310;
+
+                    // Attach Click event handler
+                    button.Click += (sender, e) =>
+                    {
+                        if (sender is Button btn)
+                        {
+                            // Remove the corresponding point from outputLines
+                            int index = int.Parse(btn.Name.Replace("button", "")) - 1;
+                            outputLines.RemoveAt(index);
+                            UpdateMessage(outputLines);
+                        }
+                    };
+
                     outputStackPanel.Children.Add(button);
                 }
-
             }
-
         }
         else
         {
             message.HorizontalContentAlignment = HorizontalAlignment.Center;
             message.Text = "Некорректные значения!";
-
         }
     }
+
+    void UpdateMessage(List<string> outputLines)
+    {
+        message.Text = string.Join(" ", outputLines);
+    }
+
+
+
 
 
 
